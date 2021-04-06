@@ -1,5 +1,5 @@
 blueprint:
-  name: deCONZ - Philips Tap Switch (4 buttons)
+  name: deCONZ - Philips Hue Dimmer Switch (4 buttons)
   description: >
     Automation blueprint for the Philips Hue RWL021 Dimmer Switch, for use with deCONZ.
   domain: automation
