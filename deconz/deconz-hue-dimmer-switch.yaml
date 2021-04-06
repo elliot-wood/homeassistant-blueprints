@@ -1,0 +1,97 @@
+blueprint:
+  name: deCONZ - Philips Tap Switch (4 buttons)
+  description: >
+    Automation blueprint for the Philips Hue RWL021 Dimmer Switch, for use with deCONZ.
+  domain: automation
+  source_url: https://gist.github.com/elliot-wood/b8d99ba2ad97f94eb97937f4bdb133b3
+  input:
+    remote:
+      name: Philips Hue Dimmer Switch
+      description: Select a RWL021 dimmer switch to use
+      selector:
+        device:
+          integration: deconz
+          manufacturer: Philips
+          model: RWL021
+          
+    button_one_short_press:
+      name: Button 1 Action
+      description: Action to run when Button 1 is quickly pressed
+      default: []
+      selector:
+        action: {}
+        
+    button_one_hold:
+      name: Button 1 Action
+      description: Action to run when Button 1 is held down
+      default: []
+      selector:
+        action: {}
+        
+    button_one_long_press:
+      name: Button 1 Action
+      description: Action to run when Button 1 is long pressed
+      default: []
+      selector:
+        action: {}
+
+    button_two_single_press:
+      name: Button 2 Action
+      description: Action to run when Button 2 is pressed
+      default: []
+      selector:
+        action: {}
+        
+    button_three_single_press:
+      name: Button 3 Action
+      description: Action to run when Button 3 is pressed
+      default: []
+      selector:
+        action: {}
+        
+    button_four_single_press:
+      name: Button 4 Action
+      description: Action to run when Button 4 is pressed
+      default: []
+      selector:
+        action: {}
+        
+mode: restart
+max_exceeded: silent
+
+trigger:
+- platform: event
+  event_type: deconz_event
+  event_data:
+    device_id: !input 'remote'
+
+action:
+- variables:
+    event: '{{ trigger.event.data.event }}'
+- choose:
+
+  - conditions:
+    - '{{ event == 1002 }}'
+    sequence: !input 'button_one_short_press'
+    
+  - conditions:
+    - '{{ event == 1001 }}'
+    sequence: !input 'button_one_hold'
+    
+  - conditions:
+    - '{{ event == 1003 }}'
+    sequence: !input 'button_one_long_press'
+
+    
+    
+  - conditions:
+    - '{{ event == 16 }}'
+    sequence: !input 'button_two_single_press'
+    
+  - conditions:
+    - '{{ event == 17 }}'
+    sequence: !input 'button_three_single_press'
+    
+  - conditions:
+    - '{{ event == 18 }}'
+    sequence: !input 'button_four_single_press'  
